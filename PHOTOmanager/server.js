@@ -1,8 +1,11 @@
 ﻿
 var express = require( 'express' );
 var app = express();
+
 app.set('view engine', 'ejs');
+//additionals stylesheets and JS
 app.use(express.static("views/kickstartJS"));
+
 var AWS = require("aws-sdk");
 // Configuration 
 
@@ -11,7 +14,7 @@ var AWS = require("aws-sdk");
 // Routes 
 app.get( '/', function ( req, res ) {
     
-    res.render('layout', { list: list,title:"Lista folderów" });
+    res.render('index', { title:"Lista folderów" });
    
 });
 
