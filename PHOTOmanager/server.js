@@ -1,4 +1,4 @@
-﻿
+﻿var crypto=require('crypto');
 var express = require( 'express' );
 var app = express();
 
@@ -11,8 +11,10 @@ var AWS = require( "aws-sdk" );
 AWS.config.loadFromPath( 'config.json' );
 
 var s3 = new AWS.S3();
+var config= require("./config.json");
 
-
+var AWS_ACCESS_KEY=config.accessKeyId;
+var AWS_SECRET_KEY=config.secretAccessKey;
 
 // Routes 
 app.get( '/', function ( req, res ) {
@@ -36,7 +38,9 @@ app.get( '/getImages', function ( req, res ) {
             for ( var i = 0; i < data.Contents.length; i++ ) {
                 var params = { Bucket: 'kkpbucket', Key: data.Contents[i].Key };
                 s3.getSignedUrl( 'getObject', params, function ( err, url ) {
-                    presignedURLs.push( url );
+                    presignedURLs.push( 
+                        {uri:url,
+                         key:params.Key});
                 });
             }
 
@@ -46,18 +50,6 @@ app.get( '/getImages', function ( req, res ) {
     });
 });
 
-app.get( '/getPutURL', function ( req, res ) {
-
-    var params = {
-        Bucket: 'kkpbucket', // required,
-        Key: req.query.Key
-    };
-
-    s3.getSignedUrl( 'putObject', params, function ( err, url ) {
-        res.send( url );
-    });
-
-});
 
 app.get( '/upload', function ( req, res ) {
 
@@ -70,6 +62,34 @@ app.get( '/convert', function ( req, res ) {
     res.render( 'convert', { title: "Konwertuj" });
 
 });
+
+
+app.get('/sign_s3', function(req, res){
+    var object_name = req.query.s3_object_name;
+    var mime_type = req.query.s3_object_type;
+
+    var now = new Date();
+    var expires = Math.ceil((now.getTime() + 10000)/1000); // 10 seconds from now
+    var amz_headers = "x-amz-acl:public-read";
+
+    var put_request = "PUT\n\n"+mime_type+"\n"+expires+"\n"+amz_headers+"\n/"+"kkpbucket"+"/"+object_name;
+
+    var signature = crypto.createHmac('sha1', AWS_SECRET_KEY).update(put_request).digest('base64');
+    signature = encodeURIComponent(signature.trim());
+    signature = signature.replace('%2B','+');
+
+    var url = 'https://'+"kkpbucket"+'.s3.amazonaws.com/'+object_name;
+
+    var credentials = {
+        signed_request: url+"?AWSAccessKeyId="+AWS_ACCESS_KEY+"&Expires="+expires+"&Signature="+signature,
+        url: url
+    };
+    res.write(JSON.stringify(credentials));
+    res.end();
+});
+
+
+
 
 
 app.listen( 8081 ); 

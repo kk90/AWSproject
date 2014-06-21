@@ -1,14 +1,50 @@
 ﻿<%- include top.ejs %>
-
+<script type="text/javascript" src="js/lodash.min.js"></script>
+<script type="text/javascript" src="js/jqui.js"></script>
+<link rel="stylesheet" type="text/css" href="uimin.css" media="all" />
 <script src="js/upload.js"></script>
+<div id="progressbar"></div>
+<div class="col_5">
+    <p id="status">Proszę wybraćź plik:</p>
+    
+    <input type="file" id="files" />
+</div>
 
-<form id="uploadForm"  method="post">
-    <label>Upload Image File:</label><br />
-    <input name="userImage" type="file" id="_file" class="inputFile" />
-    <input type="submit" value="Submit" class="btnSubmit" />
-</form>
+<div class="col_7">
+    <div style="border:1px solid gray;width:300px;" id="preview"> <img class="caption" title="Podgląd" src="http://placehold.it/400x350/4D99E0/ffffff.png&text=400x350" width="400" height="350" /></div>
+
+</div>
 
 
+<script>
+    function s3_upload() {
+        var s3upload = new S3Upload({
+            file_dom_selector: 'files',
+            s3_sign_put_url: '/sign_s3',
+            s3_object_name: (new Date()).getTime(),
+            onProgress: function (percent, message) {
+                $("#progressbar").progressbar({
+                    value: percent
+                });
+                $('#status').html('Postęp ' + percent + '% ' + message);
+            },
+            onFinishS3Put: function (public_url) {
+                $('#status').html('Wczytano');
+               
+                $("#preview").html('<img class="caption" title="Podgląd" src="' + public_url + '" style="width:300px;" />');
+            },
+            onError: function (status) {
+                $('#status').html('Upload error: ' + status);
+            }
+        });
+    }
+    /*
+    * Listen for file selection:
+    */
+    $(document).ready(function () {
+        $('#files').on("change", s3_upload);
+    });
+</script>
 
 
 <%- include bottom.ejs %>

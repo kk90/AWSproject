@@ -169,3 +169,7 @@ display:block;
         color:white;
         font-size:48px;
 }
+#progressbar{
+    width:100%;
+    height:10px;
+}

@@ -8,14 +8,14 @@
            for(var i=0;i<data.length ;i++){
                
                var mainIMG = $('<img>').attr({
-			    src : data[i],
+			    src : data[i].uri,
                 width:100,
                 height:100
 		        });
 
                var mainA = $('<a>', {
-			        href:data[i]
-		        });
+			        href:data[i].uri
+		        })
 
                mainA.append(mainIMG);
               
