@@ -9,8 +9,10 @@
                
                var mainIMG = $('<img>').attr({
 			    src : data[i].uri,
+                class:"imageItem",
                 width:100,
-                height:100
+                height:100,
+                imageKey:data[i].key
 		        });
 
                var mainA = $('<a>', {
@@ -22,6 +24,29 @@
 
                $("#gallery").append(mainA);
                }
+
+               $(".imageItem").mousedown(function(e){ 
+    if( e.button == 2 ) { 
+        
+        if (confirm('Usunąć plik?')) {
+            $("#gallery").empty();
+            $("#waitScreen").show();
+            $.ajax( {
+            url: "deleteImage?key="+$(this).attr("imagekey"),
+            context: document.body
+            }).done( function (data) {
+                loadImages();
+        });
+
+        } else {
+    
+        }
+
+      return false; 
+    } 
+    return true; 
+  }); 
+
         });
 
 
