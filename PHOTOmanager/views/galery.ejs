@@ -1,12 +1,19 @@
 ﻿<%- include top.ejs %>
+<div class="col_9">
+    
+    <div id="gallery" class="gallery">
 
-<div id="gallery" class="gallery">
+    </div>
+
+    <div id="waitScreen">
+        Czekaj, trwa ładowanie zdjęć...
+    </div>
+
+    <script src="js/galery.js"></script>
+</div>
+<div class="col_3">
+    <%- include upload.ejs %>
+
 
 </div>
-
-<div id="waitScreen">
-    Czekaj, trwa ładowanie zdjęć...
-</div>
-
-<script src="js/galery.js"></script>
 <%- include bottom.ejs %>
