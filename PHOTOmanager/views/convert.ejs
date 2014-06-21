@@ -1,7 +1,23 @@
 ﻿<%- include top.ejs %>
 
-Test
+<div class="col_5">
+    <h3>Dostępne transformacje:</h3>
 
+    <input type="checkbox" id="check1" />
+    <label for="check1" class="inline">Negatyw</label>
+    <br/>
+    <input type="checkbox" id="check2" />
+    <label for="check2" class="inline">Sepia</label>
+    <br />
+    <input type="checkbox" id="check3" />
+    <label for="check3" class="inline">Fantazja</label>
+    <br />
+    <button class="large red"><i class=" icon-play-circle"></i> Konwertuj</button>
+</div>
+
+<div class="col_7">
+    <img class="full-width" src="<%-uri%>" />
+</div>
 
 
 <%- include bottom.ejs %>

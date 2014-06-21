@@ -80,8 +80,12 @@ app.get( '/upload', function ( req, res ) {
 });
 
 app.get( '/convert', function ( req, res ) {
+       var params = { Bucket: BUCKETkk, Key: req.query.key };
+                s3.getSignedUrl( 'getObject', params, function ( err, url ) {
+                   res.render( 'convert', { title: "Konwertuj",uri:url });
+                });
 
-    res.render( 'convert', { title: "Konwertuj" });
+    
 
 });
 

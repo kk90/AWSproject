@@ -17,7 +17,7 @@ function pushItem( pictureObject ) {
                mainA.append( mainIMG );
 
     var menu1 = [
-        { 'Usuń': function ( menuItem, menu ) { if ( confirm( 'Usunąć plik?' ) ) {
+        { '<i class="icon-remove"></i> Usuń': function ( menuItem, menu ) { if ( confirm( 'Usunąć plik?' ) ) {
       //$("#gallery").empty();
       //$("#waitScreen").show();
       $( this ).parent().hide();
@@ -30,11 +30,14 @@ function pushItem( pictureObject ) {
 
   } } },
         $.contextMenu.separator,
-        { 'Edytuj': function ( menuItem, menu ) { alert( "You clicked Option 2!" ); } }
+        { '<i class="icon-edit"></i> Edytuj': function ( menuItem, menu ) { 
+            window.open ('/convert?key='+ $( this ).attr( "imagekey" ),'_self',false) } }
     ];
     
          mainIMG.contextMenu(menu1);
     
+
+
 
     /* mainIMG.mousedown( function ( e ) {
 if ( e.button == 2 ) {
