@@ -12,12 +12,12 @@
     <input type="checkbox" id="check3" />
     <label for="check3" class="inline">Fantazja</label>
     <br />
-    <button class="large red"><i class=" icon-play-circle"></i> Konwertuj</button>
+    <button onclick="convertFile('<%-key%>')" class="large red"><i class=" icon-play-circle"></i> Konwertuj</button>
 </div>
 
 <div class="col_7">
     <img class="full-width" src="<%-uri%>" />
 </div>
-
+<script src="js/convert.js"></script>
 
 <%- include bottom.ejs %>

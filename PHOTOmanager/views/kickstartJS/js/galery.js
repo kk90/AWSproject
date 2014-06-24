@@ -12,7 +12,10 @@ function pushItem( pictureObject ) {
 
     var mainA = $( '<a>', {
         href: pictureObject.uri
-    })
+    }).attr({
+        width: 100,
+        height: 100,
+       });
 
                mainA.append( mainIMG );
 

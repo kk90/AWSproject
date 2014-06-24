@@ -10,7 +10,15 @@ var AWS = require( "aws-sdk" );
 
 AWS.config.loadFromPath( 'config.json' );
 
+//var AWSSQS = require( "aws-sdk" );
+
+
+
 var s3 = new AWS.S3();
+
+AWS.config.loadFromPath( 'configSQS.json' );
+var sqs = new AWS.SQS();
+
 var config = require( "./config.json" );
 
 var AWS_ACCESS_KEY = config.accessKeyId;
@@ -19,6 +27,7 @@ var AWS_SECRET_KEY = config.secretAccessKey;
 
 
 var BUCKETkk = 'kkpbucket';
+var QUEUEkk='https://sqs.us-west-2.amazonaws.com/983680736795/korycki';
 
 // Routes 
 app.get( '/', function ( req, res ) {
@@ -82,7 +91,7 @@ app.get( '/upload', function ( req, res ) {
 app.get( '/convert', function ( req, res ) {
        var params = { Bucket: BUCKETkk, Key: req.query.key };
                 s3.getSignedUrl( 'getObject', params, function ( err, url ) {
-                   res.render( 'convert', { title: "Konwertuj",uri:url });
+                   res.render( 'convert', { title: "Konwertuj",uri:url,key:req.query.key });
                 });
 
     
@@ -114,6 +123,20 @@ app.get( '/sign_s3', function ( req, res ) {
     res.end();
 });
 
+
+app.get( '/pushConvert', function ( req, res ) {
+
+var params = {
+  MessageBody: req.query.key+'|'+req.query.conversion, // required
+  QueueUrl: QUEUEkk, // required
+  DelaySeconds: 0,
+};
+sqs.sendMessage(params, function(err, data) {
+  if (err) res.send(err, err.stack); // an error occurred
+  else res.send(data);           // successful response
+});
+
+});
 
 
 
