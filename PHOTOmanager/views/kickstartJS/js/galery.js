@@ -11,11 +11,13 @@ function pushItem( pictureObject ) {
     });
 
     var mainA = $( '<a>', {
-        href: pictureObject.uri
     }).attr({
         width: 100,
         height: 100,
        });
+    mainA.click(function() {
+  $('#galeryMain').attr('src',pictureObject.uri);
+});
 
                mainA.append( mainIMG );
 

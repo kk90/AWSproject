@@ -37,6 +37,18 @@ app.get( '/', function ( req, res ) {
 
 });
 
+app.get( '/getURI', function ( req, res ) {
+
+    var params = { Bucket: BUCKETkk, Key: req.query.key };
+                s3.getSignedUrl( 'getObject', params, function ( err, url ) {
+                    res.send(url);
+                });
+});
+
+
+
+
+
 app.get( '/getImages', function ( req, res ) {
 
     var params = {
@@ -127,7 +139,7 @@ app.get( '/sign_s3', function ( req, res ) {
 app.get( '/pushConvert', function ( req, res ) {
 
 var params = {
-  MessageBody: req.query.key+'|'+req.query.conversion, // required
+  MessageBody: req.query.key+'|'+req.query.convertedKey+'|'+req.query.conversion, // required
   QueueUrl: QUEUEkk, // required
   DelaySeconds: 0,
 };

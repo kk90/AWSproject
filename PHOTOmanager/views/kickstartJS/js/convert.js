@@ -17,10 +17,32 @@ function parseParameters() {
 
 
 function convertFile(id){
+
+    var keyUnique=(new Date()).getTime();
+
     $.ajax( {
-        url: "pushConvert?key=" + id + "&conversion=" + parseParameters(),
+        url: "pushConvert?key=" + id +"&convertedKey=" + keyUnique + "&conversion=" + parseParameters(),
           context: document.body
       }).done( function ( data ) {
-          $('#mainImage').attr("src","/img/processing.gif")
+          $('#mainImage').attr("src","/img/processing.gif");
+          
+           $.ajax( {
+            url: "getURI?key=" + keyUnique,
+             context: document.body
+            }).done( function ( data ) {
+            setInterval(function(){
+            $('#mainImage').attr("src",data);
+                }, 1*1000);
+             });
+          
+          
+          
+          
           });
+
+    
+       
+   
+
+       
 }
