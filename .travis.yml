@@ -7,7 +7,7 @@ deploy:
   access_key_id: AKIAJRWXVR2NWJKFN4EA
   secret_access_key:
     secure: FJ4Z6RA0KZi3I3uSMNSrr4GtRzTUCsrasCoh23ivbitdnc9MqbEV3nquzvhcP6eQHr4fJ+sJqwb1r1sKcElErY0ELJGTpooxmy8jaiYbZ8hj7fy2bEEeiEPbr2vvHNn0KJ3QjAPwDt2zMzEo4dzdBrDmiGEMihfbYRltKBqb2to=
-  bucket: deploy-weeia
-  upload-dir: korycki
+  bucket: kkpbucketsource
+  upload-dir: web
   on:
     repo: kk90/AWSproject
