@@ -1,0 +1,38 @@
+<%- include top.ejs %>
+
+    
+
+<style type="text/css">
+      #map-canvas { height: 100%; margin: 0; padding: 0; width: 70%; position: absolute;}
+</style>
+<script type="text/javascript"
+      src="https://maps.googleapis.com/maps/api/js?sensor=true">
+      </script>
+<script type="text/javascript">
+    var points=<%-JSON.stringify(list)%>;
+
+      function initialize() {
+        var mapOptions = {
+          center: { lat: 51.729943, lng: 19.5013696},
+          zoom: 8
+        };
+        var map = new google.maps.Map(document.getElementById('map-canvas'),
+            mapOptions);
+
+        points.forEach(function(point) {
+              var marker = new google.maps.Marker({
+                position: new google.maps.LatLng(point.latitude,point.longitude),
+                map: map,
+                title: point.key,
+            });
+            });
+      }
+      google.maps.event.addDomListener(window, 'load', initialize);
+    </script>
+
+    <div id="map-canvas">
+        
+    </div>
+    
+</body>
+    </html>
