@@ -13,6 +13,28 @@
 </div>
 
 <script>
+
+    function getLocation(keyUnique) {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(function(position){
+            console.log("Latitude: " + position.coords.latitude + 
+            "<br>Longitude: " + position.coords.longitude); 
+
+        $.ajax( {
+              url: "putLocationInDB?longitude=" + position.coords.longitude+"&latitude="+position.coords.latitude+"&key="+keyUnique,
+              context: document.body
+                }).done( function ( data ) {
+
+                });
+
+            });
+        } else {
+            console.log("Geolocation is not supported by this browser.");
+        }
+    }
+    
+
+
     function s3_upload() {
         var keyUnique=(new Date()).getTime();
         var s3upload = new S3Upload({
@@ -32,6 +54,9 @@
                     uri: public_url,
                     key: keyUnique
                 });
+                getLocation(keyUnique);
+
+                //add location data to db
                 
             },
             onError: function (status) {

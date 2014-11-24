@@ -3,15 +3,19 @@ function parseParameters() {
 
     var conversionquery = "";
     if ($('#check1')[0].checked) {
-        conversionquery+="negatyw|"
+        conversionquery+="sepia#"+$('#range').val()+"|"
     }
 
     if ($('#check2')[0].checked) {
-        conversionquery += "sepia|"
+        conversionquery += "negatyw|"
     }
     if ($('#check3')[0].checked) {
-        conversionquery += "fantazja|"
+        conversionquery += "jasnosc#"+$('#range').val()+"|"
     }
+    if ($('#check4')[0].checked) {
+        conversionquery += "kontrast#"+$('#range').val()+"|"
+    }
+    console.log(conversionquery);
     return conversionquery;
 }
 

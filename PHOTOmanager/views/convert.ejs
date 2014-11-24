@@ -1,17 +1,33 @@
 ﻿<%- include top.ejs %>
 
+<style>
+#range {
+    -webkit-appearance: slider-horizontal;
+    width: 200px;
+    height: 20px;
+}
+</style>
+
 <div class="col_5">
     <h3>Dostępne transformacje:</h3>
 
     <input type="checkbox" id="check1" />
-    <label for="check1" class="inline">Negatyw</label>
+    <label for="check1" class="inline">Sepia</label>
     <br/>
     <input type="checkbox" id="check2" />
-    <label for="check2" class="inline">Sepia</label>
+    <label for="check2" class="inline">Negatyw</label>
     <br />
     <input type="checkbox" id="check3" />
-    <label for="check3" class="inline">Fantazja</label>
+    <label for="check3" class="inline">Jasność</label>
     <br />
+    <input type="checkbox" id="check4" />
+    <label for="check4" class="inline">Kontrast</label>
+    <br />
+    <label for="check4" class="inline">Poziom</label>
+    <br/>
+    <input type="range" id="range" min="0" max="100" step="1" value="50" />
+    <br/>
+    <br/>
     <button onclick="convertFile('<%-key%>')" class="large red"><i class=" icon-play-circle"></i> Konwertuj</button>
 </div>
 

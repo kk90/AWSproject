@@ -9,6 +9,12 @@ app.use( express.static( "views/kickstartJS" ) );
 var AWS = require( "aws-sdk" );
 
 AWS.config.loadFromPath( 'config.json' );
+var mongoConfig = require('./mongoconfig.json')
+var mongoose = require('mongoose');
+mongoose.connect('mongodb://'+mongoConfig.login+':'+mongoConfig.pass+'@'+mongoConfig.url);
+
+var ImageLocation = mongoose.model('ImageLocation', { longitude: String,latitude: String,key: String });
+
 
 //var AWSSQS = require( "aws-sdk" );
 
@@ -46,6 +52,27 @@ app.get( '/getURI', function ( req, res ) {
 });
 
 
+
+app.get('/putLocationInDB',function(req,res){
+    console.log(req.query.longitude);
+    console.log(req.query.key);
+    var location = new ImageLocation({ latitude: req.query.latitude,longitude: req.query.longitude, key:req.query.key });
+    location.save(function (err) {
+          if (err) // ...
+          console.log("unable to add to db");
+    });
+});
+
+app.get('/fotoMap',function(req,res){
+   
+
+
+    ImageLocation.find({},function (err, record) {
+        res.render( 'fotoMap', { list: record,title: "Mapa" });
+
+    });
+    
+})
 
 
 
@@ -153,4 +180,4 @@ sqs.sendMessage(params, function(err, data) {
 
 
 
-app.listen( 80 ); 
+app.listen( 8080 ); 
