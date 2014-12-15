@@ -164,7 +164,7 @@ app.get( '/sign_s3', function ( req, res ) {
 
 
 app.get( '/pushConvert', function ( req, res ) {
-
+console.log(req.query.conversion);
 var params = {
   MessageBody: req.query.key+'|'+req.query.convertedKey+'|'+req.query.conversion, // required
   QueueUrl: QUEUEkk, // required

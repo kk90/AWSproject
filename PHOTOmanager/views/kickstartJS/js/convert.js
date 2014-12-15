@@ -3,17 +3,17 @@ function parseParameters() {
 
     var conversionquery = "";
     if ($('#check1')[0].checked) {
-        conversionquery+="sepia#"+$('#range').val()+"|"
+        conversionquery+="sepia_"+$('#range').val()+"|"
     }
 
     if ($('#check2')[0].checked) {
         conversionquery += "negatyw|"
     }
     if ($('#check3')[0].checked) {
-        conversionquery += "jasnosc#"+$('#range').val()+"|"
+        conversionquery += "jasnosc_"+$('#range').val()+"|"
     }
     if ($('#check4')[0].checked) {
-        conversionquery += "kontrast#"+$('#range').val()+"|"
+        conversionquery += "kontrast_"+$('#range').val()+"|"
     }
     console.log(conversionquery);
     return conversionquery;
@@ -23,9 +23,10 @@ function parseParameters() {
 function convertFile(id){
 
     var keyUnique=(new Date()).getTime();
-
+    var murl="pushConvert?key=" + id +"&convertedKey=" + keyUnique + "&conversion=" + parseParameters();
+    console.log(murl);
     $.ajax( {
-        url: "pushConvert?key=" + id +"&convertedKey=" + keyUnique + "&conversion=" + parseParameters(),
+        url: murl,
           context: document.body
       }).done( function ( data ) {
           $('#mainImage').attr("src","/img/processing.gif");
@@ -35,8 +36,10 @@ function convertFile(id){
              context: document.body
             }).done( function ( data ) {
             setInterval(function(){
-            $('#mainImage').attr("src",data);
-                }, 1*1000);
+                
+                $('#mainImage').attr("src",data);
+                
+                }, 7*1000);
              });
           
           

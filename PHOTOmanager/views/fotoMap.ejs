@@ -1,9 +1,9 @@
 <%- include top.ejs %>
 
-    
+    <div class="col_9">
 
 <style type="text/css">
-      #map-canvas { height: 100%; margin: 0; padding: 0; width: 70%; position: absolute;}
+      #map-canvas { height: 500px; margin: 0; padding: 0; width: 100%; }
 </style>
 <script type="text/javascript"
       src="https://maps.googleapis.com/maps/api/js?sensor=true">
@@ -24,15 +24,58 @@
                 position: new google.maps.LatLng(point.latitude,point.longitude),
                 map: map,
                 title: point.key,
+                });
+
+            google.maps.event.addListener(marker, 'click', function(){
+                showDetails(point);
+
             });
+
+
             });
       }
       google.maps.event.addDomListener(window, 'load', initialize);
+
+
+
+      function  showDetails(e){
+        console.log("getURI?key=" + e.key);
+          $.ajax( {
+            url: "getURI?key=" + e.key,
+             context: document.body
+            }).done( function ( data ) {
+                console.log(data);
+                
+                $('#galeryMain').attr("src",data);
+
+             });
+                }
+
+
+                function pushElementOnMap(element){
+
+                }
+
     </script>
 
     <div id="map-canvas">
         
     </div>
+
+    </div>
+
+
+    <div class="col_3">
+
+    <div>
+        <h2>Podgląd</h2>
+        <img class="full-width" id="galeryMain" src="http://placehold.it/260x200/4D99E0/ffffff.png&text=full+width" />
+    </div>
+
+    <%- include upload.ejs %>
+
+
+</div>
     
 </body>
     </html>
